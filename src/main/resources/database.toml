@@ -1,0 +1,21 @@
+[mongo]
+enabled = 0
+host = "localhost"
+port = 27017
+username = ""
+password = ""
+auth = "admin"
+
+[redis]
+enabled = 0
+host = "localhost"
+port = 6379
+password = ""
+
+[influx]
+enabled = 0
+host = "localhost"
+port = 8086
+token = ""
+organization = ""
+bucket = ""

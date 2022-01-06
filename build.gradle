@@ -1,0 +1,53 @@
+plugins {
+    id 'org.springframework.boot' version '2.6.2'
+    id 'java'
+}
+
+group = 'com.barden'
+version = '0.0.1'
+sourceCompatibility = '17'
+
+sourceSets {
+    main.java.srcDirs = ['src/main/java']
+    main.resources.srcDirs = ['src/main/resources']
+
+    test.java.srcDirs = ['src/test/java']
+    test.resources.srcDirs = ['src/test/resources']
+}
+
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+    implementation 'org.springframework.boot:spring-boot-starter-web:2.6.2'
+    implementation 'com.google.guava:guava:31.0.1-jre'
+    implementation 'org.mongodb:mongodb-driver-sync:4.4.0'
+    implementation 'redis.clients:jedis:4.0.0'
+    implementation 'com.influxdb:influxdb-client-java:4.0.0'
+    implementation 'com.influxdb:flux-dsl:4.0.0'
+    implementation 'com.github.alexheretic:dynamics:4.0'
+    implementation 'com.google.code.gson:gson:2.8.9'
+    implementation 'org.reflections:reflections:0.10.2'
+    implementation 'com.electronwill.night-config:toml:3.6.4'
+}
+
+test {
+    useJUnit()
+}
+
+bootJar {
+    enabled = false
+}
+
+configurations {
+    runtimeClasspath.exclude group: 'org.springframework.boot'
+    jar.archiveName = 'barden-java-library.jar'
+}
+
+jar {
+    enabled = true
+    duplicatesStrategy = DuplicatesStrategy.EXCLUDE
+
+    from configurations.runtimeClasspath.collect { it.isDirectory() ? it : zipTree(it) }
+}
