@@ -9,6 +9,7 @@ import redis.clients.jedis.JedisPoolConfig;
 import redis.clients.jedis.JedisPubSub;
 
 import javax.annotation.Nonnull;
+import java.time.Duration;
 import java.util.Arrays;
 import java.util.LinkedHashSet;
 import java.util.Objects;
@@ -58,7 +59,7 @@ public final class RedisProvider {
         this.clientSettings.setMaxIdle(32);
         this.clientSettings.setMinIdle(8);
 
-        this.clientSettings.setMaxWaitMillis(10000);
+        this.clientSettings.setMaxWait(Duration.ofSeconds(10));
 
         this.clientSettings.setJmxEnabled(true);
 
@@ -252,7 +253,7 @@ public final class RedisProvider {
     private void registerChannel() {
         this.channelThread = new Thread(() -> {
             try {
-                this.subscribeClient = new Jedis(this.host);
+                this.subscribeClient = new Jedis(this.host, this.port, 0);
                 if (!this.password.isEmpty())
                     this.subscribeClient.auth(this.password);
                 this.subscribeClient.subscribe(this.subscribe, "barden-channels");
