@@ -42,11 +42,14 @@ public final class InfluxProvider {
 
         //Creates client connection.
         this.client = InfluxDBClientFactory.create("http://" + this.host + ":" + this.port, token.toCharArray(), organization, bucket);
+        //Configures client.
+        this.client.enableGzip();
+
         //Makes write api.
         this.writeApi = this.client.makeWriteApi(WriteOptions.builder().build());
 
         //Pings to the database server to make sure it is working.
-        if (!this.ping())
+        if (!this.client.ping())
             return;
 
         //Logging.
@@ -54,14 +57,6 @@ public final class InfluxProvider {
 
         //Initialization.
         this.initialized = true;
-    }
-
-    /**
-     * Connection test.
-     * Pings influx to fetch it is working or not.
-     */
-    private boolean ping() {
-        return true;
     }
 
     /**
