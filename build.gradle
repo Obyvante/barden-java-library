@@ -22,8 +22,8 @@ repositories {
 dependencies {
     implementation 'org.springframework.boot:spring-boot-starter-web:2.6.2'
     implementation 'com.google.guava:guava:31.0.1-jre'
-    implementation 'org.mongodb:mongodb-driver-sync:4.4.0'
-    implementation 'redis.clients:jedis:4.0.0'
+    implementation 'org.mongodb:mongodb-driver-sync:4.4.1'
+    implementation 'redis.clients:jedis:4.0.1'
     implementation 'com.influxdb:influxdb-client-java:4.0.0'
     implementation 'com.influxdb:flux-dsl:4.0.0'
     implementation 'com.github.alexheretic:dynamics:4.0'

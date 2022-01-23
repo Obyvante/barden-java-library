@@ -54,7 +54,7 @@ public final class DatabaseRepository {
                     config.getOrElse("influx.port", 8086),
                     config.getOrElse("influx.token", ""),
                     config.getOrElse("influx.organization", ""),
-                    config.getOrElse("influx.bucket", "default_bucket"));
+                    config.getOrElse("influx.bucket", "default"));
     }
 
     /**

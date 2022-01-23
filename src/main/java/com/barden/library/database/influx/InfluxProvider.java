@@ -2,9 +2,12 @@ package com.barden.library.database.influx;
 
 import com.barden.library.BardenJavaLibrary;
 import com.influxdb.client.*;
+import com.influxdb.client.domain.Bucket;
+import com.influxdb.client.domain.Organization;
 
 import javax.annotation.Nonnull;
 import java.util.Objects;
+import java.util.Optional;
 
 /**
  * Influx provider class.
@@ -41,7 +44,7 @@ public final class InfluxProvider {
         this.bucket = Objects.requireNonNull(bucket, "bucket cannot be null!");
 
         //Creates client connection.
-        this.client = InfluxDBClientFactory.create("http://" + this.host + ":" + this.port, token.toCharArray(), organization, bucket);
+        this.client = InfluxDBClientFactory.create("http://" + this.host + ":" + this.port, token.toCharArray());
         //Configures client.
         this.client.enableGzip();
 
@@ -49,8 +52,10 @@ public final class InfluxProvider {
         this.writeApi = this.client.makeWriteApi(WriteOptions.builder().build());
 
         //Pings to the database server to make sure it is working.
-        if (!this.client.ping())
+        if (!this.client.ping()) {
+            BardenJavaLibrary.getLogger().error("Couldn't ping influx!");
             return;
+        }
 
         //Logging.
         BardenJavaLibrary.getLogger().info("Successfully connected to InfluxDB! (" + this.host + ":" + this.port + ")");
@@ -108,6 +113,16 @@ public final class InfluxProvider {
     }
 
     /**
+     * Gets organization id.
+     *
+     * @return Organization id.
+     */
+    @Nonnull
+    public String getOrganizationId() {
+        return this.getOrganizationByName(this.organization).getId();
+    }
+
+    /**
      * Gets bucket.
      *
      * @return Bucket.
@@ -135,6 +150,52 @@ public final class InfluxProvider {
     @Nonnull
     public WriteApi getWriteAPI() {
         return this.writeApi;
+    }
+
+    /**
+     * Finds bucket by its name.
+     *
+     * @param name Bucket name.
+     * @return Optional bucket.
+     */
+    @Nonnull
+    public Optional<Bucket> findBucketByName(@Nonnull String name) {
+        return Optional.ofNullable(this.client.getBucketsApi().findBucketByName(Objects.requireNonNull(name, "name cannot be null!")));
+    }
+
+    /**
+     * Gets bucket by its name.
+     *
+     * @param name Bucket name.
+     * @return Bucket.
+     */
+    @Nonnull
+    public Bucket getBucketByName(@Nonnull String name) {
+        return this.findBucketByName(name).orElseThrow(() -> new NullPointerException("bucket(" + name + ") cannot be null!"));
+    }
+
+    /**
+     * Finds organization by its name.
+     *
+     * @param name Organization name.
+     * @return Optional organization.
+     */
+    @Nonnull
+    public Optional<Organization> findOrganizationByName(@Nonnull String name) {
+        return this.client.getOrganizationsApi().findOrganizations().stream()
+                .filter(org -> org.getName().equals(Objects.requireNonNull(name, "name cannot be null!")))
+                .findFirst();
+    }
+
+    /**
+     * Gets organization by its name.
+     *
+     * @param name Organization name.
+     * @return Organization.
+     */
+    @Nonnull
+    public Organization getOrganizationByName(@Nonnull String name) {
+        return this.findOrganizationByName(name).orElseThrow(() -> new NullPointerException("organization(" + name + ") cannot be null!"));
     }
 
     /**
