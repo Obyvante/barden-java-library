@@ -4,6 +4,7 @@ import com.barden.library.BardenJavaLibrary;
 import com.influxdb.client.*;
 import com.influxdb.client.domain.Bucket;
 import com.influxdb.client.domain.Organization;
+import com.influxdb.client.domain.Task;
 
 import javax.annotation.Nonnull;
 import java.util.Objects;
@@ -153,6 +154,17 @@ public final class InfluxProvider {
     }
 
     /**
+     * Gets write api blocking.
+     * Create a new synchronous blocking Write client.
+     *
+     * @return Write API Blocking.
+     */
+    @Nonnull
+    public WriteApiBlocking getWriteAPIBlocking() {
+        return this.client.getWriteApiBlocking();
+    }
+
+    /**
      * Finds bucket by its name.
      *
      * @param name Bucket name.
@@ -160,7 +172,7 @@ public final class InfluxProvider {
      */
     @Nonnull
     public Optional<Bucket> findBucketByName(@Nonnull String name) {
-        return Optional.ofNullable(this.client.getBucketsApi().findBucketByName(Objects.requireNonNull(name, "name cannot be null!")));
+        return Optional.ofNullable(this.client.getBucketsApi().findBucketByName(Objects.requireNonNull(name, "bucket name cannot be null!")));
     }
 
     /**
@@ -183,7 +195,7 @@ public final class InfluxProvider {
     @Nonnull
     public Optional<Organization> findOrganizationByName(@Nonnull String name) {
         return this.client.getOrganizationsApi().findOrganizations().stream()
-                .filter(org -> org.getName().equals(Objects.requireNonNull(name, "name cannot be null!")))
+                .filter(org -> org.getName().equals(Objects.requireNonNull(name, "organization name cannot be null!")))
                 .findFirst();
     }
 
@@ -199,13 +211,26 @@ public final class InfluxProvider {
     }
 
     /**
-     * Gets write api blocking.
-     * Create a new synchronous blocking Write client.
+     * Finds task by its name.
      *
-     * @return Write API Blocking.
+     * @param name Task name.
+     * @return Optional task.
      */
     @Nonnull
-    public WriteApiBlocking getWriteAPIBlocking() {
-        return this.client.getWriteApiBlocking();
+    public Optional<Task> findTaskByName(@Nonnull String name) {
+        return this.client.getTasksApi().findTasks().stream()
+                .filter(org -> org.getName().equals(Objects.requireNonNull(name, "task name cannot be null!")))
+                .findFirst();
+    }
+
+    /**
+     * Gets task by its name.
+     *
+     * @param name Task name.
+     * @return Task.
+     */
+    @Nonnull
+    public Task getTaskByName(@Nonnull String name) {
+        return this.findTaskByName(name).orElseThrow(() -> new NullPointerException("task(" + name + ") cannot be null!"));
     }
 }

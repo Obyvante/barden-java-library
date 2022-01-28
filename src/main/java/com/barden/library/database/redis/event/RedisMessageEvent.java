@@ -1,8 +1,8 @@
 package com.barden.library.database.redis.event;
 
 import com.barden.library.event.Event;
+import com.google.gson.Gson;
 import com.google.gson.JsonObject;
-import com.google.gson.JsonParser;
 
 import javax.annotation.Nonnull;
 import java.util.Objects;
@@ -53,6 +53,6 @@ public class RedisMessageEvent extends Event {
      */
     @Nonnull
     public JsonObject getMessageAsJson() {
-        return (JsonObject) new JsonParser().parse(this.message);
+        return new Gson().fromJson(this.message, JsonObject.class);
     }
 }
