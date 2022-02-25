@@ -1,7 +1,7 @@
 package com.barden.library.cache;
 
 import com.barden.library.metadata.MetadataEntity;
-import com.barden.library.scheduler.SchedulerRepository;
+import com.barden.library.scheduler.SchedulerProvider;
 import com.barden.library.scheduler.task.Task;
 
 import javax.annotation.Nonnull;
@@ -32,7 +32,7 @@ public abstract class MetadataCachedEntity extends MetadataEntity {
         this.unit = Objects.requireNonNull(unit, "time unit cannot be null!");
         this.time = time;
         this.action = Objects.requireNonNull(action, "action cannot be null!");
-        this.task = SchedulerRepository.create().after(time, unit).schedule(f_task -> {
+        this.task = SchedulerProvider.create().after(time, unit).schedule(f_task -> {
             //Accepts action with current task.
             this.action.accept(f_task);
             //Makes cached entity be done.
@@ -54,7 +54,7 @@ public abstract class MetadataCachedEntity extends MetadataEntity {
             this.task.cancel();
 
         //Creates new task.
-        this.task = SchedulerRepository.create().after(time, unit).schedule(f_task -> {
+        this.task = SchedulerProvider.create().after(time, unit).schedule(f_task -> {
             //Accepts action with current task.
             this.action.accept(f_task);
             //Makes cached entity be done.

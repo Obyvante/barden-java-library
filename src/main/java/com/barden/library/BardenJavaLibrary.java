@@ -1,7 +1,7 @@
 package com.barden.library;
 
-import com.barden.library.database.DatabaseRepository;
-import com.barden.library.scheduler.SchedulerRepository;
+import com.barden.library.database.DatabaseProvider;
+import com.barden.library.scheduler.SchedulerProvider;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.lang.NonNull;
@@ -14,15 +14,15 @@ import java.io.File;
  */
 public final class BardenJavaLibrary {
 
-    private static final Logger logger = LoggerFactory.getLogger(SchedulerRepository.class);
-    private static final SchedulerRepository scheduler = new SchedulerRepository();
+    private static final Logger logger = LoggerFactory.getLogger(SchedulerProvider.class);
+    private static final SchedulerProvider scheduler = new SchedulerProvider();
 
     /**
      * Initializes barden java library.
      */
     public static void initialize() {
         //Initializes database repository.
-        DatabaseRepository.initialize();
+        DatabaseProvider.initialize();
     }
 
     /**
@@ -32,7 +32,7 @@ public final class BardenJavaLibrary {
         try {
             BardenJavaLibrary.scheduler.shutdown();
         } catch (Exception exception) {
-            SchedulerRepository.getLogger().error("Couldn't shutdown scheduler!", exception);
+            SchedulerProvider.getLogger().error("Couldn't shutdown scheduler!", exception);
         }
     }
 
@@ -66,7 +66,7 @@ public final class BardenJavaLibrary {
      * @return Barden scheduler.
      */
     @NonNull
-    public static SchedulerRepository getScheduler() {
+    public static SchedulerProvider getScheduler() {
         return scheduler;
     }
 }

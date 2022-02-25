@@ -19,13 +19,13 @@ import java.util.function.Consumer;
 /**
  * Barden scheduler class. (Library)
  */
-public final class SchedulerRepository {
+public final class SchedulerProvider {
 
     /*
     STATICS
      */
 
-    private static final Logger logger = LoggerFactory.getLogger(SchedulerRepository.class);
+    private static final Logger logger = LoggerFactory.getLogger(SchedulerProvider.class);
 
     /**
      * Gets logger.

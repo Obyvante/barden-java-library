@@ -1,6 +1,6 @@
 package com.barden.library.event;
 
-import com.barden.library.scheduler.SchedulerRepository;
+import com.barden.library.scheduler.SchedulerProvider;
 import com.google.common.collect.Collections2;
 import com.google.common.collect.Lists;
 
@@ -102,7 +102,7 @@ public final class EventRepository {
             _executors.forEach(executor -> {
                 //Handles event thread.
                 if (event.isAsynchronous())
-                    SchedulerRepository.schedule(task -> executor.onExecute(event));
+                    SchedulerProvider.schedule(task -> executor.onExecute(event));
                 else
                     executor.onExecute(event);
             });

@@ -3,7 +3,7 @@ package com.barden.library.scheduler.task;
 import com.barden.library.BardenJavaLibrary;
 import com.barden.library.metadata.MetadataEntity;
 import com.barden.library.scheduler.Scheduler;
-import com.barden.library.scheduler.SchedulerRepository;
+import com.barden.library.scheduler.SchedulerProvider;
 
 import javax.annotation.Nonnull;
 import java.util.Objects;
@@ -128,7 +128,7 @@ public final class Task extends MetadataEntity implements Runnable {
                 this.consumer.accept(this);
             } catch (Exception exception) {
                 //Logs error.
-                SchedulerRepository.getLogger().error("Couldn't run task(" + this.getId() + ")!", exception);
+                SchedulerProvider.getLogger().error("Couldn't run task(" + this.getId() + ")!", exception);
             } finally {
                 //Removes task from the list.
                 if (this.repeat == 0)

@@ -1,6 +1,6 @@
 package com.barden.library.metadata;
 
-import com.barden.library.scheduler.SchedulerRepository;
+import com.barden.library.scheduler.SchedulerProvider;
 import com.barden.library.scheduler.task.Task;
 
 import javax.annotation.Nonnull;
@@ -150,7 +150,7 @@ public final class Metadata {
 
         //Sets metadata.
         this.metadata.put(key, value);
-        this.metadata.put(key + ":expire", SchedulerRepository.create().after(duration, unit).schedule(task -> {
+        this.metadata.put(key + ":expire", SchedulerProvider.create().after(duration, unit).schedule(task -> {
             this.metadata.remove(key);
             this.metadata.remove(key + ":expire");
             if (expireHandler != null)

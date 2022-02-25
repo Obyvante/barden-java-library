@@ -3,7 +3,7 @@ package com.barden.library.event;
 import com.barden.library.BardenJavaLibrary;
 import com.barden.library.metadata.Metadata;
 import com.barden.library.metadata.MetadataEntity;
-import com.barden.library.scheduler.SchedulerRepository;
+import com.barden.library.scheduler.SchedulerProvider;
 import com.barden.library.scheduler.task.Task;
 
 import javax.annotation.Nonnull;
@@ -167,7 +167,7 @@ public final class EventEditor<T extends Event> extends MetadataEntity implement
 
         //Expire handler.
         if (this.expireUnit != null)
-            this.expireTask = SchedulerRepository.create().after(this.expire, this.expireUnit).schedule(task -> {
+            this.expireTask = SchedulerProvider.create().after(this.expire, this.expireUnit).schedule(task -> {
                 //If event editor is not valid, no need to continue.
                 if (!this.isRegistered() || this.isUnregistered())
                     return;

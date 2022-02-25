@@ -12,7 +12,7 @@ import java.util.Optional;
 /**
  * Database repository class.
  */
-public final class DatabaseRepository {
+public final class DatabaseProvider {
 
     private static CommentedConfig config;
 

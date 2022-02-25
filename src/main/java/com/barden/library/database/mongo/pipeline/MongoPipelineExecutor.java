@@ -1,8 +1,8 @@
 package com.barden.library.database.mongo.pipeline;
 
 import com.barden.library.BardenJavaLibrary;
-import com.barden.library.database.DatabaseRepository;
-import com.barden.library.scheduler.SchedulerRepository;
+import com.barden.library.database.DatabaseProvider;
+import com.barden.library.scheduler.SchedulerProvider;
 import com.mongodb.client.MongoCollection;
 import org.bson.Document;
 
@@ -194,7 +194,7 @@ public final class MongoPipelineExecutor {
      */
     public void execute(boolean async) {
         if (async)
-            SchedulerRepository.schedule(task -> this.execute());
+            SchedulerProvider.schedule(task -> this.execute());
         else
             this.execute();
     }
@@ -205,7 +205,7 @@ public final class MongoPipelineExecutor {
     public void execute() {
         try {
             //Gets mongo collection.
-            MongoCollection<Document> collection = DatabaseRepository.mongo()
+            MongoCollection<Document> collection = DatabaseProvider.mongo()
                     .getCollection(this.pipeline.getDatabase(), this.pipeline.getCollection());
             //If collection is null, no need to continue
             if (collection == null)
