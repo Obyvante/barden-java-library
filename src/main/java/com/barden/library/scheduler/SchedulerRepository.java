@@ -1,5 +1,8 @@
 package com.barden.library.scheduler;
 
+import com.barden.library.scheduler.task.Task;
+import com.google.common.collect.BiMap;
+import com.google.common.collect.HashBiMap;
 import com.google.common.collect.ImmutableList;
 import com.google.common.util.concurrent.ThreadFactoryBuilder;
 import org.slf4j.Logger;
@@ -72,7 +75,7 @@ public final class SchedulerRepository {
             .build());
 
     //[SYNCHRONIZED HASH SET]
-    private final Set<Task> tasks = Collections.synchronizedSet(new HashSet<>());
+    private final BiMap<UUID, Task> tasks = HashBiMap.create();
 
     /**
      * Gets executor service.
@@ -101,7 +104,7 @@ public final class SchedulerRepository {
      */
     @Nonnull
     public Set<Task> getTasks() {
-        return this.tasks;
+        return this.tasks.values();
     }
 
     /**
@@ -112,7 +115,7 @@ public final class SchedulerRepository {
      */
     @Nonnull
     public Optional<Task> findTask(@Nonnull UUID id) {
-        return this.tasks.stream().filter(task -> task.getId().equals(Objects.requireNonNull(id, "id cannot be null"))).findFirst();
+        return Optional.ofNullable(this.tasks.get(Objects.requireNonNull(id, "id cannot be null")));
     }
 
     /**
@@ -131,7 +134,10 @@ public final class SchedulerRepository {
      * @param task Task.
      */
     public void addTask(@Nonnull Task task) {
-        this.tasks.add(Objects.requireNonNull(task, "task cannot be null!"));
+        //Object null checks.
+        Objects.requireNonNull(task, "task cannot be null!");
+
+        this.tasks.put(task.getId(), task);
     }
 
     /**
@@ -140,7 +146,7 @@ public final class SchedulerRepository {
      * @param task Task.
      */
     public void removeTask(@Nonnull Task task) {
-        this.tasks.remove(Objects.requireNonNull(task, "task cannot be null!"));
+        this.tasks.remove(Objects.requireNonNull(task, "task cannot be null!").getId());
     }
 
     /**
@@ -155,7 +161,7 @@ public final class SchedulerRepository {
 
         //Loops synchronized tasks.
         synchronized (this.tasks) {
-            terminating_tasks = ImmutableList.copyOf(this.tasks);
+            terminating_tasks = ImmutableList.copyOf(this.tasks.values());
         }
 
         //Cancels all tasks.

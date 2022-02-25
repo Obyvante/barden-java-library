@@ -4,7 +4,7 @@ import com.barden.library.BardenJavaLibrary;
 import com.barden.library.metadata.Metadata;
 import com.barden.library.metadata.MetadataEntity;
 import com.barden.library.scheduler.SchedulerRepository;
-import com.barden.library.scheduler.Task;
+import com.barden.library.scheduler.task.Task;
 
 import javax.annotation.Nonnull;
 import java.util.ArrayList;

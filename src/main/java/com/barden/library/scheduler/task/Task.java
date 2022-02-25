@@ -1,8 +1,9 @@
-package com.barden.library.scheduler;
+package com.barden.library.scheduler.task;
 
 import com.barden.library.BardenJavaLibrary;
 import com.barden.library.metadata.MetadataEntity;
-import com.barden.library.scheduler.enums.TaskStatus;
+import com.barden.library.scheduler.Scheduler;
+import com.barden.library.scheduler.SchedulerRepository;
 
 import javax.annotation.Nonnull;
 import java.util.Objects;

@@ -8,12 +8,6 @@ public abstract class EventCancellable extends Event {
     protected boolean cancelled;
 
     /**
-     * Creates event cancellable object.
-     */
-    public EventCancellable() {
-    }
-
-    /**
      * Gets if event is cancelled or not.
      *
      * @return If event is cancelled or not.

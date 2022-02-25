@@ -1,5 +1,7 @@
 package com.barden.library.scheduler;
 
+import com.barden.library.scheduler.task.Task;
+
 import javax.annotation.Nonnull;
 import java.util.Objects;
 import java.util.concurrent.TimeUnit;

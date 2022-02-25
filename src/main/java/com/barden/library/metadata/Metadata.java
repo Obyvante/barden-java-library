@@ -1,7 +1,7 @@
 package com.barden.library.metadata;
 
 import com.barden.library.scheduler.SchedulerRepository;
-import com.barden.library.scheduler.Task;
+import com.barden.library.scheduler.task.Task;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;

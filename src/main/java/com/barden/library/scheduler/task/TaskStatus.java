@@ -1,4 +1,4 @@
-package com.barden.library.scheduler.enums;
+package com.barden.library.scheduler.task;
 
 /**
  * Task statuses.

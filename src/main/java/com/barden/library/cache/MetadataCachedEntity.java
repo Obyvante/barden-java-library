@@ -2,7 +2,7 @@ package com.barden.library.cache;
 
 import com.barden.library.metadata.MetadataEntity;
 import com.barden.library.scheduler.SchedulerRepository;
-import com.barden.library.scheduler.Task;
+import com.barden.library.scheduler.task.Task;
 
 import javax.annotation.Nonnull;
 import java.util.Objects;

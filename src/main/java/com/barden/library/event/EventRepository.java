@@ -1,10 +1,12 @@
 package com.barden.library.event;
 
 import com.barden.library.scheduler.SchedulerRepository;
+import com.google.common.collect.Collections2;
+import com.google.common.collect.Lists;
 
 import javax.annotation.Nonnull;
+import java.util.ArrayList;
 import java.util.Comparator;
-import java.util.HashSet;
 import java.util.List;
 import java.util.Objects;
 
@@ -13,7 +15,7 @@ import java.util.Objects;
  */
 public final class EventRepository {
 
-    private static final HashSet<EventExecutor> executors = new HashSet<>();
+    private static final List<EventExecutor> executors = new ArrayList<>();
 
     /**
      * Creates event editor object.
@@ -95,17 +97,15 @@ public final class EventRepository {
 
         //Loop through events.
         for (@Nonnull Event event : events) {
-            //Handles executors.
-            executors.stream()
-                    .filter(executor -> executor.getNames().contains(event.getName()))
-                    .sorted(Comparator.comparing(EventExecutor::getOrder))
-                    .forEach(executor -> {
-                        //Handles event thread.
-                        if (event.isAsynchronous())
-                            SchedulerRepository.schedule(task -> executor.onExecute(event));
-                        else
-                            executor.onExecute(event);
-                    });
+            List<EventExecutor> _executors = Lists.newArrayList(Collections2.filter(executors, input -> input.getNames().contains(event.getName())));
+            _executors.sort(Comparator.comparing(EventExecutor::getOrder));
+            _executors.forEach(executor -> {
+                //Handles event thread.
+                if (event.isAsynchronous())
+                    SchedulerRepository.schedule(task -> executor.onExecute(event));
+                else
+                    executor.onExecute(event);
+            });
         }
     }
 }
