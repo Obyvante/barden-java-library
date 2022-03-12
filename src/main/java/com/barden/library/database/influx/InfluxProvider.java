@@ -46,8 +46,6 @@ public final class InfluxProvider {
 
         //Creates client connection.
         this.client = InfluxDBClientFactory.create("http://" + this.host + ":" + this.port, token.toCharArray());
-        //Configures client.
-        this.client.enableGzip();
 
         //Makes write api.
         this.writeApi = this.client.makeWriteApi(WriteOptions.builder().build());
