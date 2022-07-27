@@ -5,10 +5,14 @@ import com.influxdb.client.*;
 import com.influxdb.client.domain.Bucket;
 import com.influxdb.client.domain.Organization;
 import com.influxdb.client.domain.Task;
+import okhttp3.OkHttpClient;
+import okhttp3.Protocol;
 
 import javax.annotation.Nonnull;
+import java.util.Collections;
 import java.util.Objects;
 import java.util.Optional;
+import java.util.concurrent.TimeUnit;
 
 /**
  * Influx provider class.
@@ -44,8 +48,21 @@ public final class InfluxProvider {
         this.organization = Objects.requireNonNull(organization, "organization cannot be null!");
         this.bucket = Objects.requireNonNull(bucket, "bucket cannot be null!");
 
+        //Creates influxdb client options.
+        InfluxDBClientOptions options = InfluxDBClientOptions.builder()
+                .url("http://" + this.host + ":" + this.port)
+                .authenticateToken(token.toCharArray())
+                .org(null)
+                .bucket(null)
+                .okHttpClient(new OkHttpClient.Builder()
+                        .protocols(Collections.singletonList(Protocol.HTTP_1_1))
+                        .readTimeout(30, TimeUnit.SECONDS)
+                        .connectTimeout(30, TimeUnit.SECONDS)
+                        .retryOnConnectionFailure(true))
+                .build();
+
         //Creates client connection.
-        this.client = InfluxDBClientFactory.create("http://" + this.host + ":" + this.port, token.toCharArray());
+        this.client = InfluxDBClientFactory.create(options);
 
         //Makes write api.
         this.writeApi = this.client.makeWriteApi(WriteOptions.builder().build());

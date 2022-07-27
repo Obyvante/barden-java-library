@@ -3,6 +3,7 @@ package com.barden.library.database;
 import com.barden.library.database.influx.InfluxProvider;
 import com.barden.library.database.mongo.MongoProvider;
 import com.barden.library.database.redis.RedisProvider;
+import com.barden.library.database.timescale.TimescaleProvider;
 import com.barden.library.file.TomlFileLoader;
 import com.electronwill.nightconfig.core.CommentedConfig;
 
@@ -19,6 +20,7 @@ public final class DatabaseProvider {
     private static MongoProvider mongoProvider;
     private static RedisProvider redisProvider;
     private static InfluxProvider influxProvider;
+    private static TimescaleProvider timescaleProvider;
 
     /**
      * Creates database object.
@@ -55,6 +57,15 @@ public final class DatabaseProvider {
                     config.getOrElse("influx.token", ""),
                     config.getOrElse("influx.organization", ""),
                     config.getOrElse("influx.bucket", "default"));
+
+        //Initializes -> [TIMESCALE]
+        if (config.getInt("timescale.enabled") == 1)
+            timescaleProvider = new TimescaleProvider(
+                    config.getOrElse("timescale.host", "localhost"),
+                    config.getOrElse("timescale.port", 5432),
+                    config.getOrElse("timescale.username", ""),
+                    config.getOrElse("timescale.password", ""),
+                    config.getOrElse("timescale.database", ""));
     }
 
     /**
@@ -125,5 +136,25 @@ public final class DatabaseProvider {
     @Nonnull
     public static Optional<InfluxProvider> safeInflux() {
         return Optional.ofNullable(influxProvider);
+    }
+
+    /**
+     * Gets timescale provider.
+     *
+     * @return Timescale provider.
+     */
+    @Nonnull
+    public static TimescaleProvider timescale() {
+        return timescaleProvider;
+    }
+
+    /**
+     * Gets timescale provider safe.
+     *
+     * @return Optional timescale provider.
+     */
+    @Nonnull
+    public static Optional<TimescaleProvider> safeTimescale() {
+        return Optional.ofNullable(timescaleProvider);
     }
 }
