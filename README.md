@@ -5,7 +5,7 @@
 ## What is Barden Java Library?
 
 Barden Java Library is library software developed for use by the developers in the team.
-It is used by @obyvante to develop Roblox games in the past. Still, it has useful default Java libraries you can use for
+It is used by Obyvante(me) to develop Roblox games in the past. Still, it has useful default Java libraries you can use for
 any kind of project.
 
 ## Getting started
