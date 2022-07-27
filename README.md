@@ -228,7 +228,7 @@ public class TestEvent extends Event {
 }
 ```
 
-```
+```java
 //Listens for event. (Subscribes to event.)
 EventEditor<TestEvent> eventEditor=EventRepository.of(TestEvent.class)
         .filter(event->event.getId()==1)
@@ -248,7 +248,7 @@ such as expirable keys, consumers, and getters etc.
 
 ### Example of Metadata
 
-```
+```java
 Metadata metadata=new Metadata();
 
 metadata.set("key","value");
@@ -273,7 +273,7 @@ scheduler that can be used to schedule tasks.
 
 ### Example of Scheduler
 
-```
+```java
 // Asyncrhonous scheduler task.
 SchedulerProvider.schedule(task->{
     int counter=task.metadata().get("counter",0);
