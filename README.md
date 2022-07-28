@@ -196,16 +196,15 @@ public final class BookDatabase extends DatabaseStructure<Book, BookBsonField> {
     }
 }
 ```
+```java
+Book book= new Book(UUID.randomUUID(),"The Great Gatsby","F. Scott Fitzgerald",1);
+book.setCover(2);
+book.getDatabase().saveAsync(BookBsonField.COVER); // syncrhonous save exist.
+```
 
 #### Redis, InfluxDB and Timescale
 
 You can take a look at inside their provider classes to see methods.
-
-```
-Book book= new Book(UUID.randomUUID(),"The Great Gatsby","F. Scott Fitzgerald",1);
-        book.setCover(2);
-        book.getDatabase().saveAsync(BookBsonField.COVER); // syncrhonous save exist.
-```
 
 ### Event
 
