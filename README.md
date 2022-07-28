@@ -15,26 +15,26 @@ any kind of project.
 To get started with Barden Java Library, download the source code and run the following commands:
 
 ```bash
-./gradlew clean build
+$ ./gradlew clean build
 ```
 
 Then, if there are no errors, you can run the following command to publish the library to Maven Local:
 
 ```bash
-gradle publishToMavenLocal
+$ gradle publishToMavenLocal
 ```
 
 ### Dependency
 
 To depend on the library for Gradle, you can use the following dependency:
 
-```gradle
+```xml
 implementation 'com.barden:barden-java-library:1.0'
 ```
 
 To depend on the library for Maven, you can use the following dependency:
 
-```maven
+```xml
 <dependency>
   <groupId>com.barden</groupId>
   <artifactId>barden-java-library</artifactId>
