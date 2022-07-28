@@ -9,7 +9,7 @@ It is used by Obyvante(me) to develop Roblox games in the past. Still, it has us
 any kind of project.
 
 ## Javadocs
-You can see Javadocs [here](https://obyvante.github.io/colorpunk/).
+You can see Javadocs [here](https://obyvante.github.io/barden-java-library/).
 
 ## Getting started
 
