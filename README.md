@@ -8,6 +8,9 @@ Barden Java Library is library software developed for use by the developers in t
 It is used by Obyvante(me) to develop Roblox games in the past. Still, it has useful default Java libraries you can use for
 any kind of project.
 
+## Javadocs
+You can see Javadocs [here](https://obyvante.github.io/colorpunk/).
+
 ## Getting started
 
 ### Building
